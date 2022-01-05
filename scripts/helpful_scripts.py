@@ -45,7 +45,8 @@ def get_contract(contract_name):
             version of this contract. e.g. MockV3Aggregator[-1]
     """
     contract_type = contract_to_mock[contract_name]
-    if network.show_active() in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
+    if (network.show_active() in LOCAL_BLOCKCHAIN_ENVIRONMENTS
+        or network.show_active() in FORKED_LOCAL_ENVIRONMENTS):
         if len(contract_type) <= 0:
             deploy_mocks()
         contract = contract_type[-1]
@@ -58,7 +59,7 @@ def get_contract(contract_name):
     return contract
 
 DECIMALS = 8
-INITIAL_VALUE = 20000000000
+INITIAL_VALUE = 200000000000
 
 def deploy_mocks(decimals=DECIMALS, initial_value=INITIAL_VALUE):
     account = get_account()
@@ -77,5 +78,5 @@ def fund_with_link(contract_address, account=None, link_token=None, amount=10000
     #link_token_contract = interface.LinkTokenInterface(link_token.address)
     #tx = link_token_contract.transfer(contract_address, amount, {"from": account})
     tx.wait(1)
-    print("Funded LINK contract!")
+    print("Funded lottery contract with LINK!")
     return tx
