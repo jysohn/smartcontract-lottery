@@ -39,11 +39,21 @@ def end_lottery():
     tx.wait(1)
     ending_tx = lottery.endLottery({"from": account})
     ending_tx.wait(1)
-    time.sleep(60)
+    time.sleep(30)
     print(f"{lottery.recentWinner()} is the new winner!")
+
+def check_lottery():
+    lottery = Lottery[-1]
+    lottery.checkLotteryState()
+    lottery_state = lottery.lottery_state()
+    print(f"Current state of the lottery is: {lottery_state}")
 
 def main():
     deploy_lottery()
+    check_lottery()
     start_lottery()
+    check_lottery()
     enter_lottery()
+    check_lottery()
     end_lottery()
+    check_lottery()
