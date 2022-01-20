@@ -13,7 +13,7 @@ def deploy_lottery():
         {"from": account},
         publish_source = config["networks"][network.show_active()].get("verify", False)
     )
-    print("Deployed lottery!")
+    print("Deployed lottery!\n")
     return lottery
 
 def start_lottery():
@@ -21,7 +21,7 @@ def start_lottery():
     lottery = Lottery[-1]
     starting_tx = lottery.startLottery({"from": account})
     starting_tx.wait(1)
-    print("The lottery has started!")
+    print("The lottery has started!\n")
 
 def enter_lottery():
     account = get_account()
@@ -29,7 +29,7 @@ def enter_lottery():
     value = lottery.getEntranceFee() + 100000000
     tx = lottery.enter({"from":account, "value": value})
     tx.wait(1)
-    print("You entered the lottery!")
+    print("You entered the lottery!\n")
 
 def end_lottery():
     account = get_account()
@@ -39,16 +39,24 @@ def end_lottery():
     tx.wait(1)
     ending_tx = lottery.endLottery({"from": account})
     ending_tx.wait(1)
-    time.sleep(30)
-    print(f"{lottery.recentWinner()} is the new winner!")
+    time.sleep(100)
+    print(f"{lottery.recentWinner()} is the new winner!\n")
 
 def check_lottery():
+    account = get_account()
     lottery = Lottery[-1]
     lottery.checkLotteryState()
-    lottery_state = lottery.lottery_state()
-    print(f"Current state of the lottery is: {lottery_state}")
+    # It costs gas to emit!
+    lottery_state = lottery.lottery_state({"from": account})
+    print(f"Current state of the lottery is: {lottery_state}\n")
 
 def main():
+    active_network = network.show_active()
+    print(f"Current active network: {active_network}\n")
+
+    active_account = get_account()
+    print(f"Current active account: {active_account}\n")
+
     deploy_lottery()
     check_lottery()
     start_lottery()

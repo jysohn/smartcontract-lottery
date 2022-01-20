@@ -7,3 +7,6 @@ How do we want to test this?
 1. [FORK] local testing on 'mainnet-fork'
 2. [MOCK] unit testing on 'development' with mocks
 3. [PROD] integration testing on 'testnet'
+
+Open items:
+1. Verify recentWinner works in Rinkeby testnet

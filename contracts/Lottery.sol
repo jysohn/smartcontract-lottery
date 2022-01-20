@@ -23,7 +23,6 @@ contract Lottery is VRFConsumerBase, Ownable{
     event RequestedRandomness(bytes32 requestId);
     event CheckedLotteryState(LOTTERY_STATE lottery_state);
 
-
     constructor(address _priceFeedAddress, 
     address _vrfCoordinator, 
     address _link,
@@ -63,7 +62,7 @@ contract Lottery is VRFConsumerBase, Ownable{
     }
 
     function fulfillRandomness(bytes32 _requestId, uint256 _randomness) internal override {
-        require(lottery_state == LOTTERY_STATE.CALCULATING_WINNER, "You aren't there yet");
+        require(lottery_state == LOTTERY_STATE.CALCULATING_WINNER, "You aren't there yet.");
         require(_randomness > 0, "random-not-found");
         uint256 indexOfWinner = _randomness % players.length;
         recentWinner = players[indexOfWinner];
